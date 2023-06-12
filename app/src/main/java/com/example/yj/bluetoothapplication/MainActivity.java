@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
     RelativeLayout rlayout;
     Handler h;
 
-    final int RECIEVE_MESSAGE = 1;        // Status  for Handler
+    final int RECIEVE_MESSAGE = 1;  // Status  for Handler
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private StringBuilder sb = new StringBuilder();
