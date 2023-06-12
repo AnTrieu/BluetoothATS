@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
 
     Button btnLed1, btnLed2, btnLed3;
-    EditText editText1,editText2,editText3,editText4,editText5;
+    EditText editText1,editText2,editText3,editText4,editText5,editTextLog;
     RelativeLayout rlayout;
     Handler h;
 
@@ -44,7 +44,8 @@ public class MainActivity extends Activity {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // MAC-address of Bluetooth module (you must edit this line)
-    private static String address = "FC:A8:9A:00:06:4F";
+    //private static String address = "FC:A8:9A:00:06:4F";
+    private static String address = "00:19:10:00:93:92";
 
     /** Called when the activity is first created. */
     @Override
@@ -62,6 +63,7 @@ public class MainActivity extends Activity {
         editText3 = (EditText) findViewById(R.id.editText3);
         editText4 = (EditText) findViewById(R.id.editText4);
         editText5 = (EditText) findViewById(R.id.editText5);
+        editTextLog = (EditText) findViewById(R.id.logEditText);
 
         rlayout = (RelativeLayout) findViewById(R.id.layout);
         h = new Handler() {
@@ -75,6 +77,8 @@ public class MainActivity extends Activity {
                             int endOfLineIndex = sb.indexOf("\r\n");
                             if(endOfLineIndex > 0)
                             {
+                                editTextLog.setText(sb.toString());
+
                                 String[] values = sb.toString().split("_");
                                 editText1.setText(values[0]);
                                 editText2.setText(values[1]);
