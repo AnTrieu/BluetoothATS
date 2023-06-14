@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -28,7 +29,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
 
     Button btnLed1, btnLed2, btnLed3;
-    EditText editText1,editText2,editText3,editText4,editText5,editTextLog;
+    EditText editText1,editText2,editText3,editText4,editText5,editText6,editText7,editText8,editText9,editText10,editTextLog;
     RelativeLayout rlayout;
     Handler h;
 
@@ -44,7 +45,7 @@ public class MainActivity extends Activity {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // MAC-address of Bluetooth module (you must edit this line)
-    //private static String address = "FC:A8:9A:00:06:4F";
+    // private static String address = "FC:A8:9A:00:06:4F";
     private static String address = "00:19:10:00:93:92";
 
     /** Called when the activity is first created. */
@@ -63,6 +64,11 @@ public class MainActivity extends Activity {
         editText3 = (EditText) findViewById(R.id.editText3);
         editText4 = (EditText) findViewById(R.id.editText4);
         editText5 = (EditText) findViewById(R.id.editText5);
+        editText6 = (EditText) findViewById(R.id.editText6);
+        editText7 = (EditText) findViewById(R.id.editText7);
+        editText8 = (EditText) findViewById(R.id.editText8);
+        editText9 = (EditText) findViewById(R.id.editText9);
+        editText10 = (EditText) findViewById(R.id.editText10);
         editTextLog = (EditText) findViewById(R.id.logEditText);
 
         rlayout = (RelativeLayout) findViewById(R.id.layout);
@@ -73,20 +79,58 @@ public class MainActivity extends Activity {
                         try{
                             byte[] readBuf = (byte[]) msg.obj;
                             String strIncom = new String(readBuf, 0, msg.arg1);
+                            String cleanString;
+                            double parsedValue;
+                            String formattedValue;
                             sb.append(strIncom);
                             int endOfLineIndex = sb.indexOf("\r\n");
-                            if(endOfLineIndex > 0)
-                            {
-                                editTextLog.setText(sb.toString());
+                            if (endOfLineIndex >= 0) {
+                                String completeMessage = sb.substring(0, endOfLineIndex);
+                                sb.delete(0, endOfLineIndex + 2); // Xóa chuỗi đã được xử lý
+                                editTextLog.setText(completeMessage);
 
-                                String[] values = sb.toString().split("_");
-                                editText1.setText(values[0]);
-                                editText2.setText(values[1]);
-                                editText3.setText(values[2]);
-                                editText4.setText(values[3]);
-                                editText5.setText(values[4]);
+                                String[] values = completeMessage.split("_");
+                                if (values.length == 7) {
+                                    cleanString = (values[0].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText1.setText(formattedValue);
 
-                                sb.setLength(0);
+                                    cleanString = (values[1].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText2.setText(formattedValue);
+
+                                    cleanString = (values[2].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText3.setText(formattedValue);
+
+                                    cleanString = (values[3].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText4.setText(formattedValue);
+
+                                    cleanString = (values[4].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText5.setText(formattedValue);
+
+                                    cleanString = (values[5].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText6.setText(formattedValue);
+
+                                    cleanString = (values[6].replace(".", ""));
+                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
+                                    formattedValue = String.format("%05.2f", parsedValue);
+                                    editText7.setText(formattedValue);
+
+//                                    editText8.setText(values[7]);
+//                                    editText9.setText(values[8]);
+//                                    editText10.setText(values[9]);
+                                }
+
                             }
                         } catch ( Exception e)
                         {
@@ -230,17 +274,18 @@ public class MainActivity extends Activity {
             mmOutStream = tmpOut;
         }
 
+
         public void run() {
             byte[] buffer = new byte[256];  // buffer store for the stream
             int bytes; // bytes returned from read()
-
+            byte i = 0;
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);        // Get number of bytes and message in "buffer"
                     h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();     // Send to message queue Handler
-                } catch (IOException e) {
+                } catch (Exception e) {
                     break;
                 }
             }
