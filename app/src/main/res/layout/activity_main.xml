@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0091EA"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Header"
+        android:background="#18FFFF"
+        android:padding="10dp"
+        android:text="          ATS SuperCharger System"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="10dp"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Button 1"
-            android:layout_marginEnd="8dp"/>
+            android:background="@android:drawable/editbox_background_normal"
+            android:onClick="@android:string/VideoView_error_button"
+            android:text="AirBoot10" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Button 2"
-            android:layout_marginEnd="8dp"/>
+            android:background="@android:drawable/editbox_background_normal"
+            android:text="AirBoot50" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button 3"/>
+            android:background="@android:drawable/editbox_background_normal"
+            android:text="AirBoot100" />
 
     </LinearLayout>
 
@@ -60,95 +67,100 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 1"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Pedal Position" />
 
                 <EditText
                     android:id="@+id/editText1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 3"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Engine Speed" />
 
                 <EditText
                     android:id="@+id/editText3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 5"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Vehicle Speed" />
 
                 <EditText
                     android:id="@+id/editText5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 7"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Battery Volt" />
 
                 <EditText
                     android:id="@+id/editText7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 9"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Repair" />
 
                 <EditText
                     android:id="@+id/editText9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
@@ -163,95 +175,100 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 2"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Air Follow MAF" />
 
                 <EditText
                     android:id="@+id/editText2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 4"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Intake Air Press" />
 
                 <EditText
                     android:id="@+id/editText4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 6"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Air Boot Power" />
 
                 <EditText
                     android:id="@+id/editText6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 8"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Rail Pressure" />
 
                 <EditText
                     android:id="@+id/editText8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Label 10"/>
+                    android:background="@android:color/holo_blue_bright"
+                    android:text="Repair" />
 
                 <EditText
                     android:id="@+id/editText10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false" />
 
             </LinearLayout>
 
@@ -262,20 +279,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log"/>
+            android:text="Log" />
 
         <EditText
             android:id="@+id/logEditText"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:editable="false"
-            android:gravity="top"/>
+            android:gravity="top" />
 
     </LinearLayout>
 </LinearLayout>
