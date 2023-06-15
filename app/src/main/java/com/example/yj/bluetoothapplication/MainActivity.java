@@ -16,19 +16,24 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
 
-    Button btnLed1, btnLed2, btnLed3;
+    ToggleButton btnLed1, btnLed2, btnLed3;
     EditText editText1,editText2,editText3,editText4,editText5,editText6,editText7,editText8,editText9,editText10,editTextLog;
     RelativeLayout rlayout;
     Handler h;
@@ -55,9 +60,18 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        btnLed1 = (Button) findViewById(R.id.button1);
-        btnLed2 = (Button) findViewById(R.id.button2);
-        btnLed3 = (Button) findViewById(R.id.button3);
+        btnLed1 = (ToggleButton) findViewById(R.id.button1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            btnLed1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
+        }
+        btnLed2 = (ToggleButton) findViewById(R.id.button2);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            btnLed2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
+        }
+        btnLed3 = (ToggleButton) findViewById(R.id.button3);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            btnLed3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
+        }
 
         editText1 = (EditText) findViewById(R.id.editText1);
         editText2 = (EditText) findViewById(R.id.editText2);
@@ -73,7 +87,7 @@ public class MainActivity extends Activity {
 
         rlayout = (RelativeLayout) findViewById(R.id.layout);
         h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
+            public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case RECIEVE_MESSAGE:
                         try{
@@ -125,10 +139,6 @@ public class MainActivity extends Activity {
                                     parsedValue = Double.parseDouble(cleanString) / 100.0;;
                                     formattedValue = String.format("%05.2f", parsedValue);
                                     editText7.setText(formattedValue);
-
-//                                    editText8.setText(values[7]);
-//                                    editText9.setText(values[8]);
-//                                    editText10.setText(values[9]);
                                 }
 
                             }
@@ -145,22 +155,60 @@ public class MainActivity extends Activity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
-        btnLed1.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("1");
-                //Toast.makeText(getBaseContext(), "Turn on First LED", Toast.LENGTH_SHORT).show();
+        btnLed1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Xử lý khi toggle button được chọn
+                    mConnectedThread.write("1_ON");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
+                    }
+                } else {
+                    // Xử lý khi toggle button không được chọn
+                    mConnectedThread.write("1_OFF");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
+                    }
+                }
             }
         });
-        btnLed2.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("2");
-                //Toast.makeText(getBaseContext(), "Turn on Second LED", Toast.LENGTH_SHORT).show();
+
+        btnLed2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Xử lý khi toggle button được chọn
+                    mConnectedThread.write("2_ON");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
+                    }
+                } else {
+                    // Xử lý khi toggle button không được chọn
+                    mConnectedThread.write("2_OFF");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
+                    }
+                }
             }
         });
-        btnLed3.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("3");
-                //Toast.makeText(getBaseContext(), "Turn on Third LED", Toast.LENGTH_SHORT).show();
+
+        btnLed3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Xử lý khi toggle button được chọn
+                    mConnectedThread.write("3_ON");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
+                    }
+                } else {
+                    // Xử lý khi toggle button không được chọn
+                    mConnectedThread.write("3_OFF");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
+                    }
+                }
             }
         });
     }
@@ -183,7 +231,7 @@ public class MainActivity extends Activity {
 
         Log.d(TAG, "...onResume - try connect...");
 
-        // Set up a pointer to the remote node using it's address.
+        // Set up a pointer to the remote node using its address.
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
         // Two things are needed to make a connection:
@@ -201,25 +249,34 @@ public class MainActivity extends Activity {
         // when you attempt to connect and pass your message.
         btAdapter.cancelDiscovery();
 
-        // Establish the connection.  This will block until it connects.
-        Log.d(TAG, "...Connecting...");
-        try {
-            btSocket.connect();
-            Log.d(TAG, "....Connection ok...");
-        } catch (IOException e) {
-            try {
-                btSocket.close();
-            } catch (IOException e2) {
-                errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
+        // Create a separate thread for the connection process
+        Thread connectThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Establish the connection. This will block until it connects.
+                Log.d(TAG, "...Connecting...");
+                try {
+                    btSocket.connect();
+                    Log.d(TAG, "....Connection ok...");
+
+                    // Create a data stream so we can talk to the server.
+                    Log.d(TAG, "...Create Socket...");
+                    mConnectedThread = new ConnectedThread(btSocket);
+                    mConnectedThread.start();
+                } catch (IOException e) {
+                    try {
+                        btSocket.close();
+                    } catch (IOException e2) {
+                        errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
+                    }
+                }
             }
-        }
+        });
 
-        // Create a data stream so we can talk to server.
-        Log.d(TAG, "...Create Socket...");
-
-        mConnectedThread = new ConnectedThread(btSocket);
-        mConnectedThread.start();
+        // Start the connection thread
+        connectThread.start();
     }
+
 
     @Override
     public void onPause() {

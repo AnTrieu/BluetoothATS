@@ -24,32 +24,44 @@
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
-        <Button
+        <ToggleButton
             android:id="@+id/button1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@android:drawable/editbox_background_normal"
-            android:onClick="@android:string/VideoView_error_button"
-            android:text="AirBoot10" />
+            android:textOff="AirBoot10"
+            android:textOn="AirBoot10"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:checked="false" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@android:drawable/editbox_background_normal"
-            android:text="AirBoot50" />
+            android:textOff="AirBoot50"
+            android:textOn="AirBoot50"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:checked="false" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@android:drawable/editbox_background_normal"
-            android:text="AirBoot100" />
+            android:textOff="AirBoot100"
+            android:textOn="AirBoot100"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:checked="false" />
 
     </LinearLayout>
 
