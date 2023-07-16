@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,11 +31,17 @@ import android.widget.ToggleButton;
 
 import androidx.core.content.ContextCompat;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainActivity extends Activity {
     private static final String TAG = "bluetooth2";
 
-    ToggleButton btnLed1, btnLed2, btnLed3;
-    EditText editText1,editText2,editText3,editText4,editText5,editText6,editText7,editText8,editText9,editText10,editTextLog;
+    Button btnLed1;
+    EditText editText1, editTextLog;
     RelativeLayout rlayout;
     Handler h;
 
@@ -53,6 +60,45 @@ public class MainActivity extends Activity {
     // private static String address = "FC:A8:9A:00:06:4F";
     private static String address = "00:19:10:00:93:92";
 
+    public class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Tạo một yêu cầu HTTP POST
+            OkHttpClient client = new OkHttpClient();
+
+            // Build the request body using FormBody
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("DEVICE", address)
+                    .add("TITLE", editText1.getText().toString())
+                    .add("DATA", editTextLog.getText().toString())
+                    .build();
+
+            // Create the POST request with the URL and request body
+            Request request = new Request.Builder()
+                    .url("http://45.130.229.240/php/receiver_data.php")
+                    .post(requestBody)
+                    .build();
+
+            // Execute the request and handle the response
+            try (Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    // Read and handle the response body
+                    String responseBody = response.body().string();
+                    System.out.println("Response from server: " + responseBody);
+
+                    editTextLog.setText("");
+                } else {
+                    System.out.println("Request failed: " + response.code());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Perform the networking operation here
+            return null;
+        }
+    }
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,32 +106,14 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        btnLed1 = (ToggleButton) findViewById(R.id.button1);
+        btnLed1 = (Button) findViewById(R.id.button1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             btnLed1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
         }
-        btnLed2 = (ToggleButton) findViewById(R.id.button2);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            btnLed2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
-        }
-        btnLed3 = (ToggleButton) findViewById(R.id.button3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            btnLed3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF));
-        }
 
-        editText1 = (EditText) findViewById(R.id.editText1);
-        editText2 = (EditText) findViewById(R.id.editText2);
-        editText3 = (EditText) findViewById(R.id.editText3);
-        editText4 = (EditText) findViewById(R.id.editText4);
-        editText5 = (EditText) findViewById(R.id.editText5);
-        editText6 = (EditText) findViewById(R.id.editText6);
-        editText7 = (EditText) findViewById(R.id.editText7);
-        editText8 = (EditText) findViewById(R.id.editText8);
-        editText9 = (EditText) findViewById(R.id.editText9);
-        editText10 = (EditText) findViewById(R.id.editText10);
         editTextLog = (EditText) findViewById(R.id.logEditText);
+        editText1 = (EditText) findViewById(R.id.editText1);
 
-        rlayout = (RelativeLayout) findViewById(R.id.layout);
         h = new Handler() {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -93,54 +121,12 @@ public class MainActivity extends Activity {
                         try{
                             byte[] readBuf = (byte[]) msg.obj;
                             String strIncom = new String(readBuf, 0, msg.arg1);
-                            String cleanString;
-                            double parsedValue;
-                            String formattedValue;
                             sb.append(strIncom);
                             int endOfLineIndex = sb.indexOf("\r\n");
                             if (endOfLineIndex >= 0) {
                                 String completeMessage = sb.substring(0, endOfLineIndex);
                                 sb.delete(0, endOfLineIndex + 2); // Xóa chuỗi đã được xử lý
                                 editTextLog.setText(completeMessage);
-
-                                String[] values = completeMessage.split("_");
-                                if (values.length == 7) {
-                                    cleanString = (values[0].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText1.setText(formattedValue);
-
-                                    cleanString = (values[1].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText2.setText(formattedValue);
-
-                                    cleanString = (values[2].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText3.setText(formattedValue);
-
-                                    cleanString = (values[3].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText4.setText(formattedValue);
-
-                                    cleanString = (values[4].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText5.setText(formattedValue);
-
-                                    cleanString = (values[5].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText6.setText(formattedValue);
-
-                                    cleanString = (values[6].replace(".", ""));
-                                    parsedValue = Double.parseDouble(cleanString) / 100.0;;
-                                    formattedValue = String.format("%05.2f", parsedValue);
-                                    editText7.setText(formattedValue);
-                                }
-
                             }
                         } catch ( Exception e)
                         {
@@ -155,59 +141,20 @@ public class MainActivity extends Activity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
-        btnLed1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // Thêm sự kiện nhấn vào Button
+        btnLed1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // Xử lý khi toggle button được chọn
-                    mConnectedThread.write("1_ON");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
-                    }
-                } else {
-                    // Xử lý khi toggle button không được chọn
-                    mConnectedThread.write("1_OFF");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
-                    }
-                }
-            }
-        });
+            public void onClick(View v) {
+                // Get the text from the EditText
+                String inputText = editText1.getText().toString().trim();
 
-        btnLed2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // Xử lý khi toggle button được chọn
-                    mConnectedThread.write("2_ON");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
-                    }
+                // Check if the EditText is empty
+                if (inputText.isEmpty()) {
+                    // Show a Toast message indicating that the field is required
+                    Toast.makeText(MainActivity.this, "Please enter text", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Xử lý khi toggle button không được chọn
-                    mConnectedThread.write("2_OFF");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
-                    }
-                }
-            }
-        });
-
-        btnLed3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // Xử lý khi toggle button được chọn
-                    mConnectedThread.write("3_ON");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.ON)); // Đổi màu nền thành màu xanh
-                    }
-                } else {
-                    // Xử lý khi toggle button không được chọn
-                    mConnectedThread.write("3_OFF");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        buttonView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.color.OFF)); // Đổi màu nền thành màu xanh
-                    }
+                    // Execute the AsyncTask
+                    new MyAsyncTask().execute();
                 }
             }
         });
